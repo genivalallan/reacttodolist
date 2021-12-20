@@ -1,12 +1,11 @@
-import React, { Component } from "react";
 import { TableRows } from "./TableRows";
 
-export class ItemsTable extends Component {
-  render = () =>
+export function ItemsTable(props) {
+  return (
     <table className="table table-striped table-bordered">
-      { this.props.caption &&
+      { props.caption &&
       <caption className="bg-primary text-white text-center" style={{captionSide: "top"}}>
-        { this.props.caption }
+        { props.caption }
       </caption>
       }
       <thead>
@@ -16,9 +15,10 @@ export class ItemsTable extends Component {
         </tr>
       </thead>
       <tbody>
-        { this.props.items.map(item =>
-            <TableRows key={ item.desc } item={ item } callback={ this.props.toggleTodo } />)
+        { props.items.map(item =>
+            <TableRows key={ item.desc } item={ item } callback={ props.toggleTodo } />)
         }
       </tbody>
     </table>
+  );
 }

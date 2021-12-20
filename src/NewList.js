@@ -1,18 +1,14 @@
-import React, { Component } from 'react';
+import { useState } from "react";
 
-export class NewList extends Component {
-  constructor(props){
-    super(props);
-
-    this.state = {
-      userName: props.userName,
-      listName: ''
-    };
-  }
-
-  render = () => 
+export function NewList(props) {
+  // let userName = props.userName;
+  const [userName, setUserName] = useState(props.userName);
+  // let listName = '';
+  const [listName, setListName] = useState('');
+  
+  return (
     <form className="container-fluid my-1" key="newListForm"
-          onSubmit={ () => this.props.callBack(this.state.userName.trim(), this.state.listName.trim()) }>
+          onSubmit={ () => props.callBack(userName.trim(), listName.trim()) }>
       <h4 className="bg-primary text-white text-center m-2">Criar Nova Lista</h4>
       <div className="row m-3">
         <label htmlFor="userName"
@@ -20,8 +16,8 @@ export class NewList extends Component {
         <input className="col-md form-control" id="userName"
           placeholder="Insira o nome do usuário"
           required="required"
-          value={ this.state.userName }
-          onChange={ e => this.setState({ userName: e.target.value }) }
+          value={ userName }
+          onChange={ e => setUserName(e.target.value) }
         />
       </div>
       <div className="row m-3">
@@ -30,10 +26,11 @@ export class NewList extends Component {
         <input className="col-md form-control" id="listName"
           placeholder="Insira o nome da lista"
           required="required"
-          value={ this.state.listName }
-          onChange={ e => this.setState({ listName: e.target.value }) }
+          value={ listName }
+          onChange={ e => setListName(e.target.value) }
         />
       </div>
       <button className="btn btn-primary m-3" type="submit">Criar Lista</button>
     </form>
+  );
 }
