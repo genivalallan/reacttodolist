@@ -11,3 +11,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.mid-size {
+  width: 50%;
+}
+
+.card-hover:hover {
+  background-color: #efefef;
+  transition: background-color 0.75 ease;
+  cursor: pointer;
+}
