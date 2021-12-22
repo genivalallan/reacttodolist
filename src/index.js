@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 import App from './App';
 import Todos from './todos';
+import List from './list';
 import 'bootstrap/dist/css/bootstrap.css';
 import './index.css';
 
@@ -13,6 +14,7 @@ ReactDOM.render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path=":userName" element={<Todos />} />
+        <Route path=":userName/:listIndex" element={<List />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,

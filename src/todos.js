@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Button, Modal, InputGroup, FormControl,
         Card, ListGroup, ListGroupItem,
         Container, Row, Col } from "react-bootstrap";
@@ -14,8 +14,9 @@ export default function Todos() {
   const [userName, setUserName] = useState(useParams().userName);
   const [userIndex, setUserIndex] = useState(() => appData.findIndex(user => user.userName === userName));
   const [showNewListModal, setShowNewListModal] = useState(false);
-  console.log(JSON.stringify(appData));
-  console.log(JSON.stringify(userIndex));
+  const [showTodoListModal, setShowTodoListModal] = useState(false);
+  const [listIndex, setListIndex] = useState(null);
+  const navigate = useNavigate();
 
   if (userIndex < 0) return (
     <h3 className="text-white text-center bg-primary p-3">
@@ -31,29 +32,26 @@ export default function Todos() {
          Criar Nova Lista
       </Button>
 
-      <CreateCardsList todos={appData[userIndex].todos} />
+      <CreateCardsList todos={appData[userIndex].todos}
+        onClick={(i) => navigate(`/${userName}/${i}`)} />
       <CreateNewListModal showModal={showNewListModal}
-        activateModal={() => setShowNewListModal(true)}
         dismissModal={() => setShowNewListModal(false)}
         acceptAction={() => {
           let newAppData = appData;
           newAppData[userIndex].todos.push(
             new TodoList(document.getElementById("listNameInput").value,
                           document.getElementById("listDescInput").value));
-          console.log(JSON.stringify(newAppData));
           window.sessionStorage.setItem("react-todo-app-data", JSON.stringify(newAppData));
           setShowNewListModal(false);
           setAppData(newAppData);
         }} />
-      
     </>
   );
 }
 
 function CreateCardsList(props) {
-  console.log(`Entrou na função CreateCardsList.\nprops.todos.length: ${props.todos.length}`);
   if (!Array.isArray(props.todos) || props.todos.length < 1)
-    {console.log("Prop não é um array. Retornando."); return (<></>);}
+    return null;
   
   function MakeRows() {
     let rows = [];
@@ -65,10 +63,9 @@ function CreateCardsList(props) {
   function MakeCols(colsProps) {
     let cols = [];
     for (let j = colsProps.index; j < colsProps.max; j++) {
-      console.log(`Dentro do for em MakeCols.\nj: ${j}.`);
       cols.push(
         <Col className="p-3" sm={3} key={j}>
-          <Card>
+          <Card onClick={() => props?.onClick(j)}>
             <Card.Body>
               <Card.Title>{props.todos[j].listName}</Card.Title>
               <Card.Text>{props.todos[j].description}</Card.Text>
