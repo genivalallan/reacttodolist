@@ -28,7 +28,10 @@ export default function Todos() {
       <h3 className="text-white text-center bg-primary p-3">
         Página das tarefas de {userName}!
       </h3>
-      <Button className="m-3" variant="primary" onClick={() => setShowNewListModal(true)}>
+      <Button variant="secondary" className="m-2 ms-4 px-4 p-2" onClick={() => navigate("/")}>
+        Voltar
+      </Button>
+      <Button className="m-2 p-2" variant="primary" onClick={() => setShowNewListModal(true)}>
          Criar Nova Lista
       </Button>
 
