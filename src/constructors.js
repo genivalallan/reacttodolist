@@ -4,10 +4,11 @@ export function UserTodos(userName) {
   this.todos = [];
 }
 
-export function TodoList(listName) {
+export function TodoList(listName, listDesc) {
   if (!listName) return false;
 
   this.listName = listName;
+  this.description = listDesc;
   this.items = [];
   this.showCompleted = false;
 

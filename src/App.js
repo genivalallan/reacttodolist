@@ -7,7 +7,7 @@ export default function App() {
   const [appData, setAppData] = useState(() => {
     const storedData = window.sessionStorage.getItem("react-todo-app-data");
     const data = JSON.parse(storedData);
-    return data || [];
+    return (data && (Array.isArray(data) ? data : [data])) || [];
   });
   const [showModal, setShowModal] = useState(false);
 
@@ -55,11 +55,7 @@ export default function App() {
         <Modal.Body>
           <InputGroup className="mb-3">
             <InputGroup.Text>Usuário:</InputGroup.Text>
-            <FormControl
-              id="userNameInput"
-              placeholder="Nome do usuário"
-              autoFocus
-            />
+            <FormControl id="userNameInput" placeholder="Nome do usuário" autoFocus/>
           </InputGroup>
         </Modal.Body>
         <Modal.Footer>
