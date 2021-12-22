@@ -13,7 +13,7 @@ export default function Todos() {
   });
   const [userName, setUserName] = useState(useParams().userName);
   const [userIndex, setUserIndex] = useState(() => appData.findIndex(user => user.userName === userName));
-  const [showModal, setShowModal] = useState(false);
+  const [showNewListModal, setShowNewListModal] = useState(false);
   console.log(JSON.stringify(appData));
   console.log(JSON.stringify(userIndex));
 
@@ -27,44 +27,25 @@ export default function Todos() {
       <h3 className="text-white text-center bg-primary p-3">
         Página das tarefas de {userName}!
       </h3>
-      <Button className="m-3" variant="primary" onClick={() => setShowModal(true)}>
+      <Button className="m-3" variant="primary" onClick={() => setShowNewListModal(true)}>
          Criar Nova Lista
       </Button>
 
       <CreateCardsList todos={appData[userIndex].todos} />
-
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Criar Nova Lista</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <InputGroup className="mb-3">
-            <InputGroup.Text>Título:</InputGroup.Text>
-            <FormControl id="listNameInput" placeholder="Título da lista" autoFocus/>
-          </InputGroup>
-          <InputGroup className="mb-3">
-            <InputGroup.Text>Descrição:</InputGroup.Text>
-            <FormControl as="textarea" id="listDescInput" placeholder="Descrição da lista" autoFocus/>
-          </InputGroup>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>
-            Cancelar
-          </Button>
-          <Button variant="primary" onClick={() => {
-            let newAppData = appData;
-            newAppData[userIndex].todos.push(
-              new TodoList(document.getElementById("listNameInput").value,
-                            document.getElementById("listDescInput").value));
-            console.log(JSON.stringify(newAppData));
-            window.sessionStorage.setItem("react-todo-app-data", JSON.stringify(newAppData));
-            setShowModal(false);
-            setAppData(newAppData);
-          }}>
-            Criar Lista
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <CreateNewListModal showModal={showNewListModal}
+        activateModal={() => setShowNewListModal(true)}
+        dismissModal={() => setShowNewListModal(false)}
+        acceptAction={() => {
+          let newAppData = appData;
+          newAppData[userIndex].todos.push(
+            new TodoList(document.getElementById("listNameInput").value,
+                          document.getElementById("listDescInput").value));
+          console.log(JSON.stringify(newAppData));
+          window.sessionStorage.setItem("react-todo-app-data", JSON.stringify(newAppData));
+          setShowNewListModal(false);
+          setAppData(newAppData);
+        }} />
+      
     </>
   );
 }
@@ -115,5 +96,34 @@ function CreateCardsList(props) {
     <Container>
       <MakeRows />
     </Container>
+  );
+}
+
+function CreateNewListModal(props) {
+  
+  return (
+    <Modal show={props.showModal} onHide={props.dismissModal}>
+      <Modal.Header closeButton>
+        <Modal.Title>Criar Nova Lista</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <InputGroup className="mb-3">
+          <InputGroup.Text>Título:</InputGroup.Text>
+          <FormControl id="listNameInput" placeholder="Título da lista" autoFocus/>
+        </InputGroup>
+        <InputGroup className="mb-3">
+          <InputGroup.Text>Descrição:</InputGroup.Text>
+          <FormControl as="textarea" id="listDescInput" placeholder="Descrição da lista" autoFocus/>
+        </InputGroup>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={props.dismissModal}>
+          Cancelar
+        </Button>
+        <Button variant="primary" onClick={props.acceptAction}>
+          Criar Lista
+        </Button>
+      </Modal.Footer>
+    </Modal>
   );
 }
