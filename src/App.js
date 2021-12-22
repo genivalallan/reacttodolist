@@ -38,9 +38,9 @@ export default function App() {
               <Card.Header>{user.userName}</Card.Header>
               <Card.Body>
                 <Card.Text>
-                  {user.items?.length ?? 0} listas.{" "}
-                  {(user.items?.length ?? 0) > 0 ? user.items.length : "0"}{" "}
-                  Tarefas.
+                  {user.todos?.length ?? 0} listas.{" "}
+                  {user.todos.reduce((total, list) => total + list.items.length, 0)}
+                  {" "}Tarefas.
                 </Card.Text>
               </Card.Body>
             </Card>
