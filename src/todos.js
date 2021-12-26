@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { Button, Modal, InputGroup, FormControl,
         Card, ListGroup, ListGroupItem,
         Container, Row, Col } from "react-bootstrap";
@@ -36,7 +36,7 @@ export default function Todos() {
       </Button>
 
       <CreateCardsList todos={appData[userIndex].todos}
-        onClick={(i) => navigate(`/${userName}/${i}`)} />
+        userName={userName} />
       <CreateNewListModal showModal={showNewListModal}
         dismissModal={() => setShowNewListModal(false)}
         acceptAction={() => {
@@ -68,20 +68,19 @@ function CreateCardsList(props) {
     for (let j = colsProps.index; j < colsProps.max; j++) {
       cols.push(
         <Col className="p-3" sm={3} key={j}>
-          <Card onClick={() => props?.onClick(j)}>
+          <Card className="card-hover">
+            <Link to={`/${props.userName}/${j}`} style={{ textDecoration: "none", color: "black"}}>
+              <Card.Body>
+                <Card.Title>{props.todos[j].listName}</Card.Title>
+                <Card.Text>{props.todos[j].description}</Card.Text>
+              </Card.Body>
+              <ListGroup className="list-group-flush">
+                {/* <MakeItemsList list={props.todos[j].items} /> */}
+              </ListGroup>
+            </Link>
             <Card.Body>
-              <Card.Title>{props.todos[j].listName}</Card.Title>
-              <Card.Text>{props.todos[j].description}</Card.Text>
-            </Card.Body>
-            <ListGroup className="list-group-flush">
-              {/* <MakeItemsList list={props.todos[j].items} /> */}
-              <ListGroupItem>Cras justo odio</ListGroupItem>
-              <ListGroupItem>Dapibus ac facilisis in</ListGroupItem>
-              <ListGroupItem>Vestibulum at eros</ListGroupItem>
-            </ListGroup>
-            <Card.Body>
-              <Button variant="primary">Adicionar</Button>
-              <Button variant="danger">Remover</Button>
+              <Button className="rounded-circle m-2" variant="primary">&#10010;</Button>
+              <Button className="rounded-circle m-2" variant="danger">&#128465;</Button>
             </Card.Body>
           </Card>
         </Col>
