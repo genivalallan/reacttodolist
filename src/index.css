@@ -21,3 +21,8 @@ code {
   transition: background-color 0.75 ease;
   cursor: pointer;
 }
+
+.input-hover:hover {
+  border: 1px solid;
+  border-radius: 2px;
+}
