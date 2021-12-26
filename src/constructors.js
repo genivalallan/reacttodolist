@@ -1,26 +1,23 @@
 
 export function UserTodos(userName) {
+  if (!userName) return null;
+  
   this.userName = userName;
   this.todos = [];
 }
 
 export function TodoList(listName, listDesc) {
-  if (!listName) return false;
+  if (!listName) return null;
 
   this.listName = listName;
   this.description = listDesc;
   this.items = [];
   this.showCompleted = false;
-
-  return true;
 }
 
-export function TodoItem(title, description, done = false) {
-  if (!title || !description) return false;
+export function TodoItem(description, done = false) {
+  if (!description) return null;
 
-  this.title = title;
   this.description = description;
   this.done = done;
-
-  return true;
 }
